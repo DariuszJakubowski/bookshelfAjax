@@ -1,0 +1,22 @@
+
+/*      
+paper.png from subtle patern: 
+https://www.toptal.com/designers/subtlepatterns/
+*/
+body {
+    background-image: url('../img/paper.png');
+
+}
+
+.error{
+    color: red;
+}
+
+nav {
+
+    padding: 5px;
+}
+
+#container{
+    padding-top: 50px;
+}
