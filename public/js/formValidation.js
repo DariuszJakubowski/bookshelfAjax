@@ -27,8 +27,8 @@ function validateForm(){
 
         if(author == ""){
             $('#author').after('<span class="error"> Wpisz proszę autora</span>');
-        } else if(author.length > 255){
-            $('#author').after('<span class="error">Max 255 znaków</span>');
+        } else if(author.length > 100){
+            $('#author').after('<span class="error">Max 100 znaków</span>');
         }
 
         if(title == ""){
@@ -37,8 +37,8 @@ function validateForm(){
             $('#title').after('<span class="error">Max 255 znaków</span>');
         }
 
-        if(description.length > 255){
-            $('#description').after('<span class="error"> Opis nie dłuższy niż 255 znaków</span>');
+        if(description.length > 1000){
+            $('#description').after('<span class="error"> Opis nie dłuższy niż 1000 znaków</span>');
         } 
  
 }   
