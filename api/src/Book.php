@@ -14,8 +14,28 @@ class Book
     {
         
     }
+    
+    function setIsbn($isbn)
+    {
+        $this->isbn = $isbn;
+    }
 
-    //return array: all books (or one book when id != null)
+    function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+        //return array: all books (or one book when id != null)
     public function loadFromDB($conn, $id = null)
     {
 
@@ -35,20 +55,21 @@ class Book
         return $booksFromDB;
     }
 
-        public function create($conn, int $isbn, string $author, string $title, string $description)
+        public function create($conn)
     {
         $stmt = $conn->prepare('INSERT INTO book (isbn, author, title, description) 
             VALUES(?, ?, ?, ?)');
 
         $stmt->bind_param('isss',
-            $this->validISBN($isbn),
-            $this->sanitizeString($author),
-            $this->sanitizeString($title),
-            $this->sanitizeString($description));
+            $this->validIsbn($this->isbn),
+            $this->sanitizeString($this->author),
+            $this->sanitizeString($this->title),
+            $this->sanitizeString($this->description));
         $stmt->execute();
 
-        $createIsDone = true; //!$stmt->errno;
+        $createIsDone = !$stmt->errno;
         $stmt->close();
+        $conn->close();
 
         return $createIsDone;
     }
@@ -57,10 +78,11 @@ class Book
     {
         $stmt = $conn->prepare("UPDATE book SET isbn=?, author=?, title=?, description=? WHERE id=$this->id");
         $stmt->bind_param('isss',
-            $this->validISBN($isbn),
+            $this->validIsbn($isbn),
             $this->sanitizeString($author),
             $this->sanitizeString($title),
-            $this->sanitizeString($description));
+            $this->sanitizeString($description)
+            );
         $stmt->execute();
 
         $updateDone = !$stmt->errno;
@@ -71,15 +93,15 @@ class Book
     public function deleteFromDB($conn, int $id)
     {
 
-        return ($conn->query("DELETE FROM book WHERE id = $id") === TRUE) ? TRUE
-                : FALSE;
+        return ($conn->query("DELETE FROM book WHERE id = $id") === true) ? true
+                : false;
     }
 
     private function validIsbn($isbn)
     {
 
-        if (!preg_match('/^(\d){13}|(\d){9}$/', $isbn)) {
-            $isbn = FALSE;
+        if (!preg_match('/^((\d){13}|(\d){9})$/', $isbn)) {
+            $isbn = null;
         }
         return $isbn;
     }

@@ -1,8 +1,3 @@
-<?php
-define('ROOT', dirname(__DIR__).DIRECTORY_SEPARATOR);
-define('API_DIR', ROOT.'api'.DIRECTORY_SEPARATOR);
-
-?>
 <!DOCTYPE html>
 <html lang="pl">
     <head>
@@ -16,7 +11,7 @@ define('API_DIR', ROOT.'api'.DIRECTORY_SEPARATOR);
 
     <body>
         <a href="../api/books.php">testuj api</a> <!--temporary test-->
-        <nav class="navbar navbar-inverse navbar-static-top" >
+        <nav class="navbar navbar-default navbar-static-top" >
             <div class="container-fluid">
                 <div class=" navbar-header">
                     <div class="navbar-brand">My books</div>
@@ -29,7 +24,7 @@ define('API_DIR', ROOT.'api'.DIRECTORY_SEPARATOR);
             <div class="row">
 
                 <div class="col-sm-4 col-sm-offset-2 ">
-                    <form method="post" class="form">
+                    <form method="post" class="form" action="nowhere.html">
                         <fieldset>
                             <div class="form-group">
                                 <input id="isbn" name="isbn" class="form-control"  placeholder="isbn">
@@ -45,7 +40,7 @@ define('API_DIR', ROOT.'api'.DIRECTORY_SEPARATOR);
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" value="add book" class="btn btn-success btn-block">
+                                <input id="post_submit" type="submit" value="add book" class="btn btn-success btn-block">
                                 <input type="reset" value="clear all" class="btn btn-danger btn-block">
                             </div>
                         </fieldset>
@@ -54,17 +49,15 @@ define('API_DIR', ROOT.'api'.DIRECTORY_SEPARATOR);
 
                 <div class="col-sm-4">
                     <ul class="list-group">
+                        <li class='text-center list-group-item'><strong>Książki</strong></li>
                         <!--here ajax puts data-->
                     </ul>
                 </div>
             </div> <!-- end row -->
         </div> <!-- end container -->
-        <script>
-            var api_dir = '<?= API_DIR ?>';
-        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="./js/app.js"></script>
-        <script src="./js/formValidation.js"></script>
+
     </body>
 </html>
