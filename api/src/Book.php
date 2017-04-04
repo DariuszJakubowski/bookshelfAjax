@@ -100,7 +100,7 @@ class Book
     private function validIsbn($isbn)
     {
 
-        if (!preg_match('/^((\d){13}|(\d){9})$/', $isbn)) {
+        if (!preg_match('/^[1-9]((\d){8}|(\d){12})$/', $isbn)) {
             $isbn = null;
         }
         return $isbn;
