@@ -1,11 +1,9 @@
-
 /*      
 paper.png from subtle patern: 
 https://www.toptal.com/designers/subtlepatterns/
 */
 body {
     background-image: url('../img/paper.png');
-
 }
 
 .error{
@@ -13,7 +11,6 @@ body {
 }
 
 nav {
-
     padding: 5px;
 }
 

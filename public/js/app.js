@@ -14,10 +14,16 @@ $(function () {
         })
                 .done(function (books) {
                     $.each(books, function (index, book) {
-                        books_container.append("<li id='i" + index +
+                        //every element <li> has id='isbn'
+                        books_container.append("<li id='" + book.isbn +
                                 "' class='text-left list-group-item' style='display:none'>" +
-                                book.author + ', ' + book.title + '</li>');
-                        $('#i' + index).fadeIn(500 + index * 200);
+                                "<span class='author_of_book'>" + book.author + "</span>, " +
+                                "<span class='title_of_book'>" + book.title + "</span>" +
+                                "<span class='glyphicon glyphicon-remove-circle pull-right' id='" +
+                                book.isbn + "_delete' style='cursor: pointer'></span>" +
+                                "<span class='pull-right'>&nbsp;</span>" +
+                                "<span class='glyphicon glyphicon-edit pull-right'></span></li>");
+                        $('#' + book.isbn).fadeIn(500 + index * 300);
 
                     });
                 })
@@ -39,10 +45,10 @@ $(function () {
         var title_value = form_title.val();
         var form_description = form.find('#description');
         var description_value = form_description.val();
-        // valid ISBN has 9 or 12 digits
+        // valid ISBN has 9 or 13 digits
         var isbnReg = /^[1-9]((\d){8}|(\d){12})$/;
         var is_valid = true;
-        
+
         //validation:
         //default .error is hide always after click action
         $('.error').hide();
@@ -91,13 +97,11 @@ $(function () {
                 //            dataType: 'json'
             })
                     .done(function () {
-                        
-                        books_container.append("<li class='text-left list-group-item' style='display:none'>" +
-                                author_value + ', ' + title_value + '</li>');
-                        $('li:last').fadeIn(666);
+
+                        loadBooks();
+                        // clear all inputs in form
                         form.find('.form-control').val('');
                     })
-
                     .fail(function () {
                         console.log('Failed! :(');
                     });
@@ -105,5 +109,27 @@ $(function () {
 
     });
 
+
+    $(books_container).on('click', '.glyphicon-remove-circle', function () {
+        var isbn_to_delete = parseInt($(this).attr('id'));
+
+        $.ajax({
+            method: 'DELETE',
+            url: api_url,
+            data:
+                    {
+                        isbn: isbn_to_delete
+                    }
+
+        })
+                .done(function (txt) {
+                    $('li#' + isbn_to_delete).text(txt)
+                            .hide(2000);
+                })
+                .fail(function () {
+                    console.log('del failed! :(');
+                });
+
+    });
 
 });

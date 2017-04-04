@@ -74,7 +74,7 @@ class Book
         return $createIsDone;
     }
 
-    public function update($conn, int $isbn, string $author, string $title, string $description)
+    public function update($conn, $isbn, $author, $title, $description)
     {
         $stmt = $conn->prepare("UPDATE book SET isbn=?, author=?, title=?, description=? WHERE id=$this->id");
         $stmt->bind_param('isss',
@@ -90,10 +90,10 @@ class Book
         return $updateDone;
     }
 
-    public function deleteFromDB($conn, int $id)
+    public function deleteFromDB($conn, $isbn)
     {
 
-        return ($conn->query("DELETE FROM book WHERE id = $id") === true) ? true
+        return ($conn->query("DELETE FROM book WHERE isbn = $isbn") == true) ? true
                 : false;
     }
 
