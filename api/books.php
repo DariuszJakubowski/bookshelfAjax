@@ -12,8 +12,8 @@ $book = new Book;
 $conn = DataBase::connect();
 //var_dump($_SERVER);
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['id'])) {
-        echo json_encode($book->loadFromDB($conn, $_GET['id']));
+    if (isset($_GET['isbn'])) {
+        echo json_encode($book->loadFromDB($conn, $_GET['isbn']));
     } else {
         echo json_encode($book->loadFromDB($conn));
     }

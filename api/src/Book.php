@@ -35,15 +35,15 @@ class Book
         $this->description = $description;
     }
 
-        //return array: all books (or one book when id != null)
-    public function loadFromDB($conn, $id = null)
+        //return array: all books (or one book when $isbn != null)
+    public function loadFromDB($conn, $isbn = null)
     {
 
         $booksFromDB = [];
-        if ($id === null) {
+        if ($isbn === null) {
             $sql = "SELECT * FROM book";
         } else {
-            $sql = "SELECT * FROM book WHERE id = $id";
+            $sql = "SELECT * FROM book WHERE isbn = $isbn";
         }
 
         $result = $conn->query($sql);

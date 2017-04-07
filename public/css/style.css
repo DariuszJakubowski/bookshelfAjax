@@ -4,6 +4,7 @@ https://www.toptal.com/designers/subtlepatterns/
 */
 body {
     background-image: url('../img/paper.png');
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .error{
@@ -16,4 +17,16 @@ nav {
 
 #container{
     padding-top: 50px;
+}
+
+.glyphicon-remove-circle:hover{
+    color: red;
+}
+
+.glyphicon-edit:hover{
+    color: blue;
+}
+
+.glyphicon, li{
+    cursor: pointer;
 }
