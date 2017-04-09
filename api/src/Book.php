@@ -74,19 +74,22 @@ class Book
         return $createIsDone;
     }
 
-    public function update($conn, $isbn, $author, $title, $description)
+    public function update($conn)
     {
-        $stmt = $conn->prepare("UPDATE book SET isbn=?, author=?, title=?, description=? WHERE id=$this->id");
+        $stmt = $conn->prepare("UPDATE book SET isbn=?, author=?, title=?, description=? "
+                . "WHERE isbn=$this->isbn");
         $stmt->bind_param('isss',
-            $this->validIsbn($isbn),
-            $this->sanitizeString($author),
-            $this->sanitizeString($title),
-            $this->sanitizeString($description)
+            $this->validIsbn($this->isbn),
+            $this->sanitizeString($this->author),
+            $this->sanitizeString($this->title),
+            $this->sanitizeString($this->description)
             );
         $stmt->execute();
 
         $updateDone = !$stmt->errno;
+        $stmt->close();
         $conn->close();
+        
         return $updateDone;
     }
 

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pl">
     <head>
         <title>Bookshelf - ajax</title>
@@ -55,10 +54,13 @@
                 </div>
 
                 <div class="description-container col-sm-4" style="display:none">
-                    <!--here you can see description of book-->
-                    <h4></h4>
-                    
-                    <p></p>
+                    <!--here you can see and edit: author, title and description of book-->
+                    <h4>
+                        <span class="edit-field edit-field-author"></span>
+                        <i><span class="edit-field edit-field-title"></span></i>
+                    </h4>           
+                    <p><span class="edit-field edit-field-description"></span></p>
+                  
                 </div>
                     
                 <!--here you can see description of book-->

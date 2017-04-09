@@ -1,12 +1,12 @@
 $(function () {
 
     var books_container = $('ul');
+    var description_container = $('.description-container');
     var api_url = '../api/books.php';
 
     loadAllBooks();
 
-    function loadBook(Book, isbn) {
-//        var description_container = $('.description-container');
+    function loadBook(isbn) {
 
         $.ajax({
             url: api_url + "?isbn=" + isbn,
@@ -14,23 +14,14 @@ $(function () {
             dataType: 'json'
         })
                 .done(function (book) {
-                   Book = {
-                        isbn: book[0].isbn,
-                        author: book[0].author,
-                        title: book[0].title,
-                        description: book[0].description
-
-                    };
-
-//                    description_container.find('h4').text(book[0].author + ' "' + book[0].title + '"');
-//                    description_container.find('p').text(book[0].description);
-//                    description_container.fadeIn();
-
+                    description_container.find('span.edit-field-author').text(book[0].author);
+                    description_container.find('span.edit-field-title').text(book[0].title);
+                    description_container.find('span.edit-field-description').text(book[0].description);
+                    description_container.fadeIn();
                 })
                 .fail(function () {
-                    console.log('fail!');
+                    console.log('Failed!');
                 });
-        return Book;
     }
 
 
@@ -57,11 +48,12 @@ $(function () {
                     });
                 })
                 .fail(function () {
-                    console.log('Error: can\'t display books');
+                    console.log('Failed! (GET: loadAllBooks())');
                 });
     }
 
-    // validate book then send it 
+    // validate (on client side) book 
+    // then save it in database
     $('#post_submit').on('click', function (event) {
         event.preventDefault();
 
@@ -120,10 +112,6 @@ $(function () {
                             title: title_value,
                             description: description_value
                         }
-                //dodanie atrybut dataType: 'json' uruchamia metodę fail() mimo, że dane zostały
-                //poprawnie dodane do bd. Trzeba będzie poprawić api tak by ten dodany 
-                //obiekt book został zwrócony
-                //            dataType: 'json'
             })
                     .done(function () {
 
@@ -132,7 +120,7 @@ $(function () {
                         form.find('.form-control').val('');
                     })
                     .fail(function () {
-                        console.log('Failed! :(');
+                        console.log('Failed! (POST)');
                     });
         }
 
@@ -142,64 +130,78 @@ $(function () {
     $(books_container).on('click', '.glyphicon-remove-circle', function (event) {
         //stopPropagation() prevent to display desription  of book
         event.stopPropagation();
+
         var isbn_to_delete = parseInt($(this).attr('id'));
+        var conf = confirm('Jesteś pewien, że chcesz usunąć książkę isbn: ' + isbn_to_delete + '?');
 
-        $.ajax({
-            method: 'DELETE',
-            url: api_url,
-            data:
-                    {
-                        isbn: isbn_to_delete
-                    }
-        })
-                .done(function (txt) {
-                    $('li#' + isbn_to_delete).text(txt)
-                            .hide(2000);
-                })
-                .fail(function () {
-                    console.log('del failed! :(');
-                });
+        if (conf) {
 
+            $.ajax({
+                method: 'DELETE',
+                url: api_url,
+                data:
+                        {
+                            isbn: isbn_to_delete
+                        }
+            })
+                    .done(function (txt) {
+                        $('li#' + isbn_to_delete).text(txt)
+                                .hide(2000);
+                    })
+                    .fail(function () {
+                        console.log('Failed! (DELETE)');
+                    });
+        }
     });
 
-    //event click on element <li>: show description of book
+
+    //show description of book (event 'click' on book)
     $(books_container).on('click', '.li_book', function () {
         //get isbn
         var isbn = $(this).attr('id');
-        var Book = loadBook(null, isbn);
-        console.log(Book);
+        loadBook(isbn);
     });
 
 
 // update book
-    $(books_container).on('click', '.glyphicon-edit', function (event) {
-        //stopPropagation() prevent to display description  of book
-        event.stopPropagation();
-//       event.preventDefault();
+    $(books_container).on('click', '.glyphicon-edit', function () {
+
         var isbn = parseInt($(this).attr('id'));
-        $('div#post_submit').css('background', 'red');
-//                '<input id="updade_submit" type="submit" value="edytuj książkę" class="btn btn-default">'
-//                );
-//        $.ajax({
-//            method: 'PUT',
-//            url: api_url,
-//            data:
-//                    {
-//                        isbn: isbn_to_delete
-//                    }
-//        })
-//                .done(function (txt) {
-//                    $('li#' + isbn_to_delete).text(txt)
-//                            .hide(2000);
-//                })
-//                .fail(function () {
-//                    console.log('del failed! :(');
-//                });
+        // fields are editable now
+        $('.edit-field').attr("contenteditable", "true")
+                .css('background-color', 'white');
+        //appear edit-btn
+        $('p').after('<button type="button" class="btn btn-warning btn-edit">Edytuj</button>');
 
+        $(document).on('click', '.btn-edit', function () {
+            var author = $('.edit-field-author').text();
+            var title = $('.edit-field-title').text();
+            var description = $('.edit-field-description').text();
+
+            $.ajax({
+                method: 'PUT',
+                url: api_url,
+                data:
+                        {
+                            isbn: isbn,
+                            author: author,
+                            title: title,
+                            description: description
+                        }
+            })
+                    .done(function () {
+
+                        loadBook(isbn);
+                    })
+                    .fail(function () {
+                        console.log('Failed! (PUT)');
+                    }).always(function () {
+                        $('.edit-field').attr("contenteditable", "false")
+                            .css('background-image', 'url(./img/paper.png)');
+                        $('.btn-edit').remove();
+                        loadAllBooks();
+                    });
+        });
     });
-
-
-
-
 
 });

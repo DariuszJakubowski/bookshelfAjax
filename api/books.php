@@ -1,12 +1,9 @@
 <?php
+
 require '../vendor/autoload.php';
 
 use Bookshelf\src\Book;
 use Bookshelf\src\DataBase;
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 
 $book = new Book;
 $conn = DataBase::connect();
@@ -30,7 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 
     parse_str(file_get_contents("php://input"), $put_vars);
-
+    $book->setIsbn($put_vars['isbn']);
+    $book->setAuthor($put_vars['author']);
+    $book->setTitle($put_vars['title']);
+    $book->setDescription($put_vars['description']);
+    
+    if($book->update($conn)) {
+        echo 'Book is updated';
+    }
 
 } elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 
