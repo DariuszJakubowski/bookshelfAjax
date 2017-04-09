@@ -3,7 +3,6 @@
         <title>Bookshelf - ajax</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/style.css">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -49,7 +48,7 @@
                 <div class="col-sm-4">
                     <ul class="list-group">
                         <li class='text-center list-group-item'><strong>Książki</strong></li>
-                        <!--here ajax get books from db-->
+                        <!--here ajax gets books from db-->
                     </ul>
                 </div>
 
@@ -59,11 +58,8 @@
                         <span class="edit-field edit-field-author"></span>
                         <i><span class="edit-field edit-field-title"></span></i>
                     </h4>           
-                    <p><span class="edit-field edit-field-description"></span></p>
-                  
-                </div>
-                    
-                <!--here you can see description of book-->
+                    <p><span class="edit-field edit-field-description"></span></p>                
+                </div>                   
             </div>
         </div> <!-- end row -->
     </div> <!-- end container -->
