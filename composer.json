@@ -1,10 +1,10 @@
 {
     "name": "DariuszJakubowski/bookshelfAjax",
     "description": "bookshelfAjax - a simple application using naked PHP & jQuery AJAX",
-    "author": "DariuszJakubowski",
+    "author": "Darek",
     "require":
             {
-                "php": ">=7.0"
+                "php": ">=5.6"
             },
     "autoload":
             {

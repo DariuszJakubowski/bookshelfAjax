@@ -1,4 +1,8 @@
-# bookshelfAjax
+# bookshelfAjax 
+### (a simple REST API responsive website)
 
-- minimalist responsive website using: HTML, CSS, Bootstrap, jQuery, PHP, MySQL
-- CRUD using AJAX and json
+### features:
+- Responsive Web Design (Bootstrap)
+- CRUD using AJAX & JSON, PHP, MySQL
+- client-side form validation with JS
+- server-side form validation with PHP
